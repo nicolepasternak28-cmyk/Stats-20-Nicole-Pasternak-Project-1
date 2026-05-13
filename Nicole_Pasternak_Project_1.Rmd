@@ -1,0 +1,118 @@
+---
+title: "Project 1: Basic Reproducibility and Reporting"
+subtitle: "Stats 20, Spring 2026, Section 2"
+author: "Nicole Pasternak"
+date: "April 2026"
+abstract: "This report demonstrates reproducible data analysis using R Markdown. All results, including tables and figures, are generated directly from code. This ensures transparency, accuracy, and reproducibility."
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+# Set global options for code chunks
+# echo = TRUE ensures code is visible in the output
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This report presents a reproducible data analysis conducted using R Markdown. By integrating code, output, and written explanation within a single document, the analysis ensures full transparency and consistency. All tables, figures, and results are generated directly from the underlying code, minimizing the risk of error and enhancing reproducibility. This approach reflects best practices in data analysis by allowing the entire workflow to be easily verified and replicated.
+
+# Question A
+
+-   Statistical modeling and probability\
+-   Economic decision-making and behavioral analysis.
+
+I am consistently drawn to statistical modeling and economics because they provide structured frameworks for understanding uncertainty and human behavior. Statistical methods allow me to analyze patterns in data and make informed predictions, while economic theory helps explain how individuals and markets respond to incentives and constraints. Together, these areas offer powerful tools for interpreting complex real-world problems and making evidence-based decisions.
+
+# Question B
+
+The following code demonstrates how to load the `pokemon.RData` file and examine the structure of the data frame it contains. Inspecting the structure allows us to understand the variables, their data types, and the overall organization of the dataset.
+
+```{r}
+# Load Pokemon dataset from local RData file into R environment
+# Load dataset into R session for analysis and reproducibility
+load("pokemon.RData")
+
+# Identify loaded object
+ls()
+
+# Assign to 'pokemon' for consistency
+pokemon <- get(ls()[1])
+
+# Display structure
+str(pokemon)
+```
+
+# Question C
+
+The following visualization explores the relationship between two key Pokemon attributes: attack and defense. A scatterplot is used to help identify whether there is any visible pattern or relationship between offensive and defensive strength across different Pokemon.
+
+```{r}
+# Simple scatterplot showing relationship between attack and defense
+plot(pokemon$attack, pokemon$defense,
+     main = "Pokemon Attack vs Defense",
+     xlab = "Attack",
+     ylab = "Defense",
+     pch = 19,
+     col = "blue")
+```
+
+# Question D
+
+While the scatterplot provides a visual understanding of the relationship between attack and defense, it is also important to examine the dataset using numerical summaries. Summary statistics and data previews allow us to understand the overall structure, central tendencies, and variability of the variables in a more precise way. The following code generates a quick view of the dataset along with key descriptive statistics.
+
+```{r}
+# Preview first observations to verify column structure and data format
+head(pokemon, 10)
+
+# Compute descriptive statistics for all variables to assess distributions and ranges
+summary(pokemon)
+```
+
+# Question E
+
+After summarizing the dataset and reviewing key descriptive statistics, it is also useful to visually represent individual observations. In addition to numerical summaries, visual elements such as images help contextualize the dataset by providing a concrete representation of the data being analyzed. The following section includes an image of a Pokemon to further enhance interpretability and engagement with the dataset.
+
+```{r}
+# Download image locally
+download.file(
+  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png",
+  destfile = "pikachu.png",
+  mode = "wb"
+)
+
+# Show image from local file
+knitr::include_graphics("pikachu.png")
+```
+
+# Question F
+
+To further explore the dataset, we shift from visual representation to quantitative analysis by extracting a numeric variable and computing a summary statistic.
+
+```{r}
+# Extract HP as a numeric vector
+hp_vector <- pokemon$hp
+
+# Compute mean HP (ignore missing values)
+mean(hp_vector, na.rm = TRUE)
+```
+
+# Question G
+
+Building on this summary statistic, we next examine how vectorized operations can be applied to the same type of numeric data to transform and manipulate values efficiently across the entire dataset.
+
+```{r}
+# Extract attack vector
+attack_vector <- pokemon$attack
+
+# Operation 1: add constant to each value
+attack_plus_10 <- attack_vector + 10
+
+# Operation 2: Log transformation applied to entire attack column
+log_attack <- log(attack_vector)
+
+# Show results
+head(data.frame(attack_vector, attack_plus_10, log_attack))
+```
